@@ -144,7 +144,22 @@ function App() {
         </Button>
         <Button variant='outlined'>Update</Button>
       </ButtonGroup>
-      <Button variant='outlined'>Delete</Button>
+      <Button
+        variant='outlined'
+        onClick={() => {
+          const newTopics = topics.filter((e) => {
+            if (e.id === id) {
+              return false;
+            } else {
+              return true;
+            }
+          });
+          setMode('WELCOME');
+          setTopics(newTopics);
+        }}
+      >
+        Delete
+      </Button>
     </div>
   );
 }
