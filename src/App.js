@@ -2,15 +2,15 @@ import './App.css';
 import { useState } from 'react';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
+import styled from 'styled-components';
 
 function Header(props) {
   return (
-    <header>
+    <header className={props.className}>
       <h1>
         <a
           href='/'
           onClick={(evt) => {
-            console.log('evt', evt);
             evt.preventDefault();
             props.onSelect();
           }}
@@ -21,9 +21,22 @@ function Header(props) {
     </header>
   );
 }
+
+const HeaderStyled = styled(Header)`
+  border-bottom: 1px solid gray;
+  color: red;
+`;
+
+function Article(props) {
+  return (
+    <article>
+      <h2>{props.title}</h2>
+      {props.body}
+    </article>
+  );
+}
 function Nav(props) {
-  console.log('data', props.data);
-  const list = props.data.map((e) => {
+  const liTags = props.data.map((e) => {
     return (
       <li key={e.id}>
         <a
@@ -38,35 +51,13 @@ function Nav(props) {
       </li>
     );
   });
-  // const list = [
-  //   <li>
-  //     <a href='/read/1'>html</a>
-  //   </li>,
-  //   <li>
-  //     <a href='/read/2'>css</a>
-  //   </li>,
-  // ];
   return (
     <nav>
-      <ol>{list}</ol>
+      <ol>{liTags}</ol>
     </nav>
   );
 }
-
-function Article(props) {
-  console.log('props', props.title);
-  return (
-    <article>
-      <h2>{props.title}</h2>
-      {props.body}
-    </article>
-  );
-}
-function createHandler() {
-  alert('creat!');
-}
 function App() {
-  //최초의 한번만 WELCOME이고 그 다음부터는 바뀔 수 있다.
   const [mode, setMode] = useState('WELCOME');
   const [id, setId] = useState(null);
   console.log(mode, id);
@@ -85,16 +76,15 @@ function App() {
         return false;
       }
     })[0];
-    console.log('topic ', topic);
     content = <Article title={topic.title} body={topic.body}></Article>;
   }
   return (
     <div>
-      <Header
+      <HeaderStyled
         onSelect={() => {
           setMode('WELCOME');
         }}
-      ></Header>
+      ></HeaderStyled>
       <Nav
         data={topics}
         onSelect={(id) => {
@@ -113,8 +103,8 @@ function App() {
           Create
         </Button>
         <Button variant='outlined'>Update</Button>
-        <Button variant='outlined'>Delete</Button>
       </ButtonGroup>
+      <Button variant='outlined'>Delete</Button>
     </div>
   );
 }
